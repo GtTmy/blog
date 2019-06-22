@@ -151,15 +151,7 @@
 	<span class="p">{</span>
         <span class="c1">// Your code here!
 </span><span class="c1"></span>        <span class="k">const</span> <span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">15</span><span class="p">;</span>
-        <span class="n">Hogehoge</span> <span class="n">x</span><span class="p">;</span>
-        <span class="k">try</span>
-        <span class="p">{</span>
-            <span class="n">x</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Foo</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
-        <span class="p">}</span>
-        <span class="k">catch</span>
-        <span class="p">{</span>
-            <span class="n">x</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Bar</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
-        <span class="p">}</span>
+        <span class="kt">var</span> <span class="n">x</span> <span class="p">=</span> <span class="p">(</span><span class="n">MyExtensions</span><span class="p">.</span><span class="n">TryConstruct</span><span class="p">&lt;</span><span class="n">Hogehoge</span><span class="p">&gt;(()</span> <span class="p">=&gt;</span> <span class="k">new</span> <span class="n">Foo</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="k">out</span> <span class="kt">var</span> <span class="n">tmp</span><span class="p">))</span> <span class="p">?</span> <span class="n">tmp</span> <span class="p">:</span> <span class="k">new</span> <span class="n">Bar</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
 
         <span class="n">x</span><span class="p">.</span><span class="n">Say</span><span class="p">();</span>
     <span class="p">}</span>
@@ -183,7 +175,7 @@
 
         		<footer>
 			<span>
-			&copy; <time datetime="2019-06-22 11:06:39.264381713 &#43;0000 UTC m=&#43;0.056178213">2019</time> GtTmy. Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			&copy; <time datetime="2019-06-22 11:10:10.682352826 &#43;0000 UTC m=&#43;0.052310662">2019</time> GtTmy. Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
 			</span>
 		</footer>
 
