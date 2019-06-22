@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>GtTmy Memos</title>
+    <link>http://example.org/</link>
+    <description>Recent content on GtTmy Memos</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-JP</language>
+    <copyright>GtTmy</copyright>
+    <lastBuildDate>Sat, 22 Jun 2019 16:02:05 +0900</lastBuildDate>
+    
+	<atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>About GtTmy</title>
+      <link>http://example.org/about/</link>
+      <pubDate>Sat, 22 Jun 2019 16:02:05 +0900</pubDate>
+      
+      <guid>http://example.org/about/</guid>
+      <description> Profile  GtTmy  @GtTmy - Twitter  Private. DMs are welcomed.  GtTmy - GitHub GtTmy - Qiita GtTmy - Instagram  Japan Software Engineer  Embedded System(ARM, FreeRTOS, MDK) Windows GUI Apps (Visual Studio, WPF, .Net Core, C#)   </description>
+    </item>
+    
+    <item>
+      <title>例外を吐くコンストラクタの切り替え on C#</title>
+      <link>http://example.org/posts/cs-try/</link>
+      <pubDate>Sat, 22 Jun 2019 14:31:38 +0900</pubDate>
+      
+      <guid>http://example.org/posts/cs-try/</guid>
+      <description>課題 下記のように、同じinterfaceを持つ複数のクラスがあるとします。 public interface Hogehoge { void Say(); } public class Foo : Hogehoge { int i { get; } public Foo(int i) { if (i &amp;gt; 10) { throw new Exception(); } this.i =</description>
+    </item>
+    
+  </channel>
+</rss>

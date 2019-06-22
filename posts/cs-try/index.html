@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+    <head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>
+				例外を吐くコンストラクタの切り替え on C# &middot; GtTmy Memos
+		</title>
+
+		
+  		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700">
+		
+		<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+		
+		<link href="" rel="alternate" type="application/rss+xml" title="GtTmy Memos" />
+	</head>
+
+    <body>
+        		<nav class="nav">
+			<div class="nav-container">
+				<a href="/">
+					<h2 class="nav-title">GtTmy Memos</h2>
+				</a>
+				<ul>
+    <li><a href="/about">About</a></li>
+    <li><a href="/">Posts</a></li>
+</ul>
+			</div>
+		</nav>
+
+        
+
+<main>
+	<div class="post">
+		<div class="post-info">
+    <span>Written by</span>
+        
+        <br>
+        <span>on&nbsp;</span><time datetime="2019-06-22 14:31:38 &#43;0900 JST">June 22, 2019</time>
+</div>
+		<h1 class="post-title">例外を吐くコンストラクタの切り替え on C#</h1>
+<div class="post-line"></div>
+
+		
+
+		
+
+<h2 id="課題">課題</h2>
+
+<p>下記のように、同じinterfaceを持つ複数のクラスがあるとします。</p>
+<div class="highlight"><pre class="chroma"><code class="language-csharp" data-lang="csharp"><span class="k">public</span> <span class="k">interface</span> <span class="n">Hogehoge</span>
+<span class="p">{</span>
+    <span class="k">void</span> <span class="n">Say</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="k">public</span> <span class="k">class</span> <span class="nc">Foo</span> <span class="p">:</span> <span class="n">Hogehoge</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">i</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="k">public</span> <span class="n">Foo</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="p">&gt;</span> <span class="m">10</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">Exception</span><span class="p">();</span>
+        <span class="p">}</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">i</span> <span class="p">=</span> <span class="n">i</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">void</span> <span class="n">Say</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">$&#34;Foo:{i}&#34;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">public</span> <span class="k">class</span> <span class="nc">Bar</span> <span class="p">:</span> <span class="n">Hogehoge</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">i</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="k">public</span> <span class="n">Bar</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="p">&lt;=</span> <span class="m">10</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">Exception</span><span class="p">();</span>
+        <span class="p">}</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">i</span> <span class="p">=</span> <span class="n">i</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">void</span> <span class="n">Say</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">$&#34;Bar:{i}&#34;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>このインスタンスを、例外に応じて切り替えるみたいな書き方をすることがあります。</p>
+<div class="highlight"><pre class="chroma"><code class="language-csharp" data-lang="csharp"><span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
+
+<span class="k">public</span> <span class="k">class</span> <span class="nc">Hello</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="n">Main</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">// Your code here!
+</span><span class="c1"></span>        <span class="k">const</span> <span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">15</span><span class="p">;</span>
+        <span class="n">Hogehoge</span> <span class="n">x</span><span class="p">;</span>
+        <span class="k">try</span>
+        <span class="p">{</span>
+            <span class="n">x</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Foo</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">catch</span>
+        <span class="p">{</span>
+            <span class="n">x</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Bar</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="n">x</span><span class="p">.</span><span class="n">Say</span><span class="p">();</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&#34;Hello C#&#34;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><a href="https://dotnetfiddle.net/TiEDfA">実行可能なコード(dotnetfiddle)</a></p>
+
+<p>このtry～catch部分を短く書く方法を考えます。</p>
+
+<h2 id="拡張メソッドの使用">拡張メソッドの使用</h2>
+
+<p>下記の拡張メソッドを用意します。</p>
+<div class="highlight"><pre class="chroma"><code class="language-csharp" data-lang="csharp"><span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">MyExtensions</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="kt">bool</span> <span class="n">TryConstruct</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;(</span><span class="n">Func</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="n">TConstructor</span><span class="p">,</span> <span class="k">out</span> <span class="n">T</span> <span class="n">result</span><span class="p">)</span> <span class="k">where</span> <span class="n">T</span> <span class="p">:</span> <span class="k">class</span>
+    <span class="p">{</span>
+        <span class="k">try</span>
+        <span class="p">{</span>
+            <span class="n">result</span> <span class="p">=</span> <span class="n">TConstructor</span><span class="p">();</span>
+            <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">catch</span>
+        <span class="p">{</span>
+            <span class="n">result</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>
+            <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>これを使うと先ほどのMainはかなり短く書けて、</p>
+<div class="highlight"><pre class="chroma"><code class="language-csharp" data-lang="csharp"><span class="k">public</span> <span class="k">class</span> <span class="nc">Hello</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="n">Main</span><span class="p">()</span>
+	<span class="p">{</span>
+        <span class="c1">// Your code here!
+</span><span class="c1"></span>        <span class="k">const</span> <span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">15</span><span class="p">;</span>
+        <span class="n">Hogehoge</span> <span class="n">x</span><span class="p">;</span>
+        <span class="k">try</span>
+        <span class="p">{</span>
+            <span class="n">x</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Foo</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">catch</span>
+        <span class="p">{</span>
+            <span class="n">x</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Bar</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="n">x</span><span class="p">.</span><span class="n">Say</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><a href="https://dotnetfiddle.net/13OjfG">実行可能なコード(dotnetfiddle)</a></p>
+
+<p>じゃあ実際に使うか、といわれると読みにくいので使わないです。いいアイディアあったら教えてください。</p>
+
+
+		
+	</div>
+
+	<div class="pagination">
+		<a href="/about/" class="right arrow">&#8594;</a>
+
+		<a href="#" class="top">Top</a>
+	</div>
+</main>
+
+
+        		<footer>
+			<span>
+			&copy; <time datetime="2019-06-22 17:27:32.0408767 &#43;0900 JST m=&#43;0.264200401">2019</time> GtTmy. Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			</span>
+		</footer>
+
+    </body>
+</html>
