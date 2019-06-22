@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on GtTmy Memos</title>
-    <link>http://example.org/posts/</link>
+    <link>https://gttmy.github.io/blog/posts/</link>
     <description>Recent content in Posts on GtTmy Memos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-JP</language>
     <copyright>GtTmy</copyright>
     <lastBuildDate>Sat, 22 Jun 2019 14:31:38 +0900</lastBuildDate>
     
-	<atom:link href="http://example.org/posts/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://gttmy.github.io/blog/posts/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>例外を吐くコンストラクタの切り替え on C#</title>
-      <link>http://example.org/posts/cs-try/</link>
+      <link>https://gttmy.github.io/blog/posts/cs-try/</link>
       <pubDate>Sat, 22 Jun 2019 14:31:38 +0900</pubDate>
       
-      <guid>http://example.org/posts/cs-try/</guid>
+      <guid>https://gttmy.github.io/blog/posts/cs-try/</guid>
       <description>課題 下記のように、同じinterfaceを持つ複数のクラスがあるとします。 public interface Hogehoge { void Say(); } public class Foo : Hogehoge { int i { get; } public Foo(int i) { if (i &amp;gt; 10) { throw new Exception(); } this.i =</description>
     </item>
     

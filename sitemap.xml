@@ -3,38 +3,38 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://example.org/about/</loc>
+    <loc>https://gttmy.github.io/blog/about/</loc>
     <lastmod>2019-06-22T16:02:05+09:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/</loc>
+    <loc>https://gttmy.github.io/blog/</loc>
     <lastmod>2019-06-22T16:02:05+09:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://example.org/posts/</loc>
+    <loc>https://gttmy.github.io/blog/posts/</loc>
     <lastmod>2019-06-22T14:31:38+09:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://example.org/posts/cs-try/</loc>
+    <loc>https://gttmy.github.io/blog/posts/cs-try/</loc>
     <lastmod>2019-06-22T14:31:38+09:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/categories/</loc>
+    <loc>https://gttmy.github.io/blog/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/</loc>
+    <loc>https://gttmy.github.io/blog/tags/</loc>
     <priority>0</priority>
   </url>
   
