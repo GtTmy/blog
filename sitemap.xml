@@ -3,22 +3,29 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://gttmy.github.io/blog/about/</loc>
-    <lastmod>2019-06-22T16:02:05+09:00</lastmod>
+    <loc>https://gttmy.github.io/blog/</loc>
+    <lastmod>2019-06-22T18:11:18+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gttmy.github.io/blog/posts/hugo-circieci/</loc>
+    <lastmod>2019-06-22T18:11:18+09:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://gttmy.github.io/blog/</loc>
-    <lastmod>2019-06-22T16:02:05+09:00</lastmod>
+    <loc>https://gttmy.github.io/blog/posts/</loc>
+    <lastmod>2019-06-22T18:11:18+09:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://gttmy.github.io/blog/posts/</loc>
-    <lastmod>2019-06-22T14:31:38+09:00</lastmod>
-    <priority>0</priority>
+    <loc>https://gttmy.github.io/blog/about/</loc>
+    <lastmod>2019-06-22T16:02:05+09:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
   </url>
   
   <url>
