@@ -13,12 +13,12 @@
     
     
     <item>
-      <title>HugoでBlogを作成する</title>
+      <title>Hugoで作成したサイトをCircleCIでデプロイする</title>
       <link>https://gttmy.github.io/blog/posts/hugo-circieci/</link>
       <pubDate>Sat, 22 Jun 2019 18:11:18 +0900</pubDate>
       
       <guid>https://gttmy.github.io/blog/posts/hugo-circieci/</guid>
-      <description>流れ blogを書いてprivate repoにpush circle ciでビルド。publicなgithub pages用のrepoにpush</description>
+      <description>このBlogはHugoを使って作成しています。元のMarkdownはGitHubのPrivate Repositoryで管理しています。Git</description>
     </item>
     
     <item>
