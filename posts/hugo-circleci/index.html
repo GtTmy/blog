@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+    <head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>
+				Hugoで作成したサイトをCircleCIでデプロイする &middot; GtTmy Memos
+		</title>
+
+		
+  		<link rel="stylesheet" href="/blog/css/style.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700">
+		
+		<link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon.png">
+
+		
+		<link href="" rel="alternate" type="application/rss+xml" title="GtTmy Memos" />
+	</head>
+
+    <body>
+        		<nav class="nav">
+			<div class="nav-container">
+				<a href="/blog/">
+					<h2 class="nav-title">GtTmy Memos</h2>
+				</a>
+				<ul>
+    <li><a href="/blog/about">About</a></li>
+    <li><a href="/blog/">Posts</a></li>
+</ul>
+			</div>
+		</nav>
+
+        
+
+<main>
+	<div class="post">
+		<div class="post-info">
+    <span>Written by</span>
+        
+        <br>
+        <span>on&nbsp;</span><time datetime="2019-06-22 18:11:18 &#43;0900 &#43;0900">June 22, 2019</time>
+</div>
+		<h1 class="post-title">Hugoで作成したサイトをCircleCIでデプロイする</h1>
+<div class="post-line"></div>
+
+		
+
+		
+
+<p>このBlogはHugoを使って作成しています。元のMarkdownはGitHubのPrivate Repositoryで管理しています。GitHubへPushすると自動でCircle CIでビルドし、GitHubのGitHub Pages用の別のリポジトリへPushします。</p>
+
+<h2 id="blog記事作成">Blog記事作成</h2>
+
+<p>Hugoで作成します。公式の<a href="https://gohugo.io/getting-started/quick-start/">QuickStart</a>と、使用しているThemeの<a href="https://themes.gohugo.io/tale-hugo/">Tale</a>のREADMEを読んで作成しました。</p>
+
+<p>また、ソースコードハイライトを有効にするのと、下記のようにGitHubと同じようにソースコードブロックを書けるようにしました。</p>
+<div class="highlight"><pre class="chroma"><code class="language-markdown" data-lang="markdown"><span class="s">```C
+</span><span class="s"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
+<span class="s">```</span></code></pre></div>
+<p>config.tomlに下記の記述を追加します。</p>
+<div class="highlight"><pre class="chroma"><code class="language-toml" data-lang="toml"><span class="nx">pygmentsUseClasses</span> <span class="p">=</span> <span class="kc">true</span>
+<span class="nx">pygmentsCodefences</span> <span class="p">=</span> <span class="kc">true</span></code></pre></div>
+<p>あとは、Themeが対応していればソースコードハイライトが有効になります。Themeが対応していない場合は自分でCSSを生成してhtmlに差し込む必要があるようです。(<a href="https://gohugo.io/content-management/syntax-highlighting/">公式</a>、<a href="https://monoworks.co.jp/post/2018-07-03-hugo-chroma-syntax-highlighter/">hugo 単体でシンタックスハイライト適用</a>)</p>
+
+<p>今回選択したTaleにはソースコードハイライトが含まれていたのでそのまま使うことにしました。</p>
+
+<h2 id="ビルドとデプロイ">ビルドとデプロイ</h2>
+
+<p>CircleCIを使っています。普段仕事ではGitLab + GitLab CIを使っているので、練習もかねてこの構成です。</p>
+
+<p><img src="blog_ci_flow.png" alt="ビルドとデプロイの流れ" />
+<!-- https://www.draw.io/#G1QLLyq6T0emAYp1SXxZb1yKYFfTVtIHMn --></p>
+
+<p>CircleCIでのビルドは下記の設定で行っています。</p>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml">version<span class="p">:</span><span class="w"> </span><span class="m">2</span><span class="w">
+</span><span class="w"></span>jobs<span class="p">:</span><span class="w">
+</span><span class="w">  </span>build<span class="p">:</span><span class="w">
+</span><span class="w">    </span>docker<span class="p">:</span><span class="w">
+</span><span class="w">      </span>-<span class="w"> </span>image<span class="p">:</span><span class="w"> </span>cibuilds/hugo<span class="p">:</span>latest<span class="w">
+</span><span class="w">    </span>working_directory<span class="p">:</span><span class="w"> </span>~/hugo<span class="w">
+</span><span class="w">    </span>environment<span class="p">:</span><span class="w">
+</span><span class="w">      </span>HUGO_BUILD_DIR<span class="p">:</span><span class="w"> </span>~/hugo/public<span class="w">
+</span><span class="w">    </span>steps<span class="p">:</span><span class="w">
+</span><span class="w">      </span>-<span class="w"> </span>run<span class="p">:</span><span class="w"> </span>apk<span class="w"> </span>update<span class="w"> </span><span class="cp">&amp;&amp;</span><span class="w"> </span>apk<span class="w"> </span>add<span class="w"> </span>git<span class="w">
+</span><span class="w">      </span>-<span class="w"> </span>checkout<span class="w">
+</span><span class="w">      </span><span class="c"># install git submodules for managing third-party dependencies</span><span class="w">
+</span><span class="w">      </span>-<span class="w"> </span>run<span class="p">:</span><span class="w"> </span>git<span class="w"> </span>submodule<span class="w"> </span>sync<span class="w"> </span><span class="cp">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>submodule<span class="w"> </span>update<span class="w"> </span>--init<span class="w">
+</span><span class="w">
+</span><span class="w">      </span><span class="c"># checkout deploy repo</span><span class="w">
+</span><span class="w">      </span>-<span class="w"> </span>run<span class="p">:</span><span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com<span class="p">:</span>GtTmy/blog.git<span class="w"> </span>$HUGO_BUILD_DIR<span class="w">
+</span><span class="w">
+</span><span class="w">      </span><span class="c"># build</span><span class="w">
+</span><span class="w">      </span>-<span class="w"> </span>run<span class="p">:</span><span class="w"> </span>HUGO_ENV=production<span class="w"> </span>hugo<span class="w"> </span>-v<span class="w"> </span>-d<span class="w"> </span>$HUGO_BUILD_DIR<span class="w">
+</span><span class="w">
+</span><span class="w">      </span><span class="c"># git setting</span><span class="w">
+</span><span class="w">      </span>-<span class="w"> </span>run<span class="p">:</span><span class="w"> </span>cd<span class="w"> </span>$HUGO_BUILD_DIR<span class="w"> </span><span class="cp">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>config<span class="w"> </span>user.name<span class="w"> </span><span class="s2">&#34;Circle CI&#34;</span><span class="w"> </span><span class="cp">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>config<span class="w"> </span>user.email<span class="w"> </span><span class="s2">&#34;circle-ci@local&#34;</span><span class="w">
+</span><span class="w">      </span><span class="c"># deploy</span><span class="w">
+</span><span class="w">      </span>-<span class="w"> </span>run<span class="p">:</span><span class="w"> </span>cd<span class="w"> </span>$HUGO_BUILD_DIR<span class="w"> </span><span class="cp">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>add<span class="w"> </span>-A<span class="w"> </span><span class="cp">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span>$CIRCLE_BUILD_URL<span class="w"> </span><span class="cp">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>master</code></pre></div>
+<h2 id="直したいこと">直したいこと</h2>
+
+<p>CircleCIからPushする際に、PushするGitHubのRepositoryのDeploy Tokenを使いたいが、今はUser Tokenを使っている。</p>
+
+<h2 id="参考">参考</h2>
+
+<ul>
+<li><a href="https://gohugo.io/getting-started/quick-start/">Hugo QuickStart</a></li>
+<li><a href="https://circleci.com/blog/automate-your-static-site-deployment-with-circleci/">Automate Your Static Site Deployment with CircleCI</a></li>
+<li><a href="https://dotstud.io/blog/circleci-hugo-github-pages/">Hugo+GitHub Pagesで作ってるブログ運用をGitLabからCircle CI+GitHubに切り替えました。</a></li>
+</ul>
+
+
+		
+	</div>
+
+	<div class="pagination">
+		<a href="/blog/about/" class="left arrow">&#8592;</a>
+
+		<a href="#" class="top">Top</a>
+	</div>
+</main>
+
+
+        		<footer>
+			<span>
+			&copy; <time datetime="2019-06-22 11:00:32.217447279 &#43;0000 UTC m=&#43;0.042804322">2019</time> GtTmy. Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			</span>
+		</footer>
+
+    </body>
+</html>

@@ -14,10 +14,10 @@
     
     <item>
       <title>Hugoで作成したサイトをCircleCIでデプロイする</title>
-      <link>https://gttmy.github.io/blog/posts/hugo-circieci/</link>
+      <link>https://gttmy.github.io/blog/posts/hugo-circleci/</link>
       <pubDate>Sat, 22 Jun 2019 18:11:18 +0900</pubDate>
       
-      <guid>https://gttmy.github.io/blog/posts/hugo-circieci/</guid>
+      <guid>https://gttmy.github.io/blog/posts/hugo-circleci/</guid>
       <description>このBlogはHugoを使って作成しています。元のMarkdownはGitHubのPrivate Repositoryで管理しています。Git</description>
     </item>
     
